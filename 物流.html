@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>物流信息填写</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .hidden { display: none; }
+        .modal {
+            position: fixed; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%);
+            background: white; 
+            padding: 20px; 
+            border: 1px solid black;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        table {
+            width: 50%;
+            margin: auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h2>物流信息填写</h2>
+    <div id="passwordSection">
+        <p>请输入密码查看物流信息：</p>
+        <input type="password" id="passwordInput">
+        <button onclick="checkPassword()">提交</button>
+        <p id="passwordError" style="color: red;"></p>
+    </div>
+    
+    <div id="logisticsForm" class="hidden">
+        <p>请填写您的物流信息：</p>
+        <label>姓名: <input type="text" id="name"></label><br>
+        <label>地址: <input type="text" id="address"></label><br>
+        <label>电话: <input type="text" id="phone"></label><br>
+        <button onclick="submitLogistics()">提交</button>
+    </div>
+    
+    <div id="logisticsInfo" class="hidden">
+        <h3>已填写的物流信息</h3>
+        <table>
+            <tr><th>类别</th><th>信息</th></tr>
+            <tr><td>姓名</td><td id="displayName"></td></tr>
+            <tr><td>地址</td><td id="displayAddress"></td></tr>
+            <tr><td>电话</td><td id="displayPhone"></td></tr>
+        </table>
+        <button onclick="editLogistics()">修改</button>
+    </div>
+    
+    <div id="overlay" class="hidden overlay"></div>
+    <div id="modal" class="hidden modal">
+        <p>物流信息已提交！</p>
+        <button onclick="closeModal()">确定</button>
+    </div>
+    
+    <script>
+        function checkPassword() {
+            const password = document.getElementById("passwordInput").value;
+            if (password === "123456") { 
+                document.getElementById("passwordSection").classList.add("hidden");
+                if (localStorage.getItem("logistics")) {
+                    displayLogistics();
+                } else {
+                    document.getElementById("logisticsForm").classList.remove("hidden");
+                }
+            } else {
+                document.getElementById("passwordError").innerText = "密码错误，请重试！";
+            }
+        }
+        
+        function submitLogistics() {
+            const name = document.getElementById("name").value;
+            const address = document.getElementById("address").value;
+            const phone = document.getElementById("phone").value;
+            
+            if (name && address && phone) {
+                localStorage.setItem("logistics", JSON.stringify({ name, address, phone }));
+                displayLogistics();
+                document.getElementById("overlay").classList.remove("hidden");
+                document.getElementById("modal").classList.remove("hidden");
+            } else {
+                alert("请填写完整的物流信息！");
+            }
+        }
+        
+        function displayLogistics() {
+            const logistics = JSON.parse(localStorage.getItem("logistics"));
+            document.getElementById("displayName").innerText = logistics.name;
+            document.getElementById("displayAddress").innerText = logistics.address;
+            document.getElementById("displayPhone").innerText = logistics.phone;
+            document.getElementById("logisticsForm").classList.add("hidden");
+            document.getElementById("logisticsInfo").classList.remove("hidden");
+        }
+        
+        function editLogistics() {
+            document.getElementById("logisticsForm").classList.remove("hidden");
+            document.getElementById("logisticsInfo").classList.add("hidden");
+            const logistics = JSON.parse(localStorage.getItem("logistics"));
+            document.getElementById("name").value = logistics.name;
+            document.getElementById("address").value = logistics.address;
+            document.getElementById("phone").value = logistics.phone;
+        }
+        
+        function closeModal() {
+            document.getElementById("modal").classList.add("hidden");
+            document.getElementById("overlay").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
