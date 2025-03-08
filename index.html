@@ -39,40 +39,54 @@
             padding: 10px;
             text-align: left;
         }
+        .scale-container {
+            transform: scale(0.8);
+            transform-origin: top left;
+            width: 125%;
+        }
+        .button-container {
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
-    <h2>物流信息填写</h2>
-    <div id="passwordSection">
-        <p>请输入密码查看物流信息：</p>
-        <input type="password" id="passwordInput">
-        <button onclick="checkPassword()">提交</button>
-        <p id="passwordError" style="color: red;"></p>
-    </div>
-    
-    <div id="logisticsForm" class="hidden">
-        <p>请填写您的物流信息：</p>
-        <label>姓名: <input type="text" id="name"></label><br>
-        <label>地址: <input type="text" id="address"></label><br>
-        <label>电话: <input type="text" id="phone"></label><br>
-        <button onclick="submitLogistics()">提交</button>
-    </div>
-    
-    <div id="logisticsInfo" class="hidden">
-        <h3>已填写的物流信息</h3>
-        <table>
-            <tr><th>类别</th><th>信息</th></tr>
-            <tr><td>姓名</td><td id="displayName"></td></tr>
-            <tr><td>地址</td><td id="displayAddress"></td></tr>
-            <tr><td>电话</td><td id="displayPhone"></td></tr>
-        </table>
-        <button onclick="editLogistics()">修改</button>
-    </div>
-    
-    <div id="overlay" class="hidden overlay"></div>
-    <div id="modal" class="hidden modal">
-        <p>物流信息已提交！</p>
-        <button onclick="closeModal()">确定</button>
+    <div class="scale-container">
+        <h2>物流信息填写</h2>
+        <div id="passwordSection">
+            <p>请输入密码查看物流信息：</p>
+            <input type="password" id="passwordInput">
+            <button onclick="checkPassword()">提交</button>
+            <p id="passwordError" style="color: red;"></p>
+        </div>
+        
+        <div id="logisticsForm" class="hidden">
+            <p>请填写您的物流信息：</p>
+            <label>姓名: <input type="text" id="name"></label><br>
+            <label>地址: <input type="text" id="address"></label><br>
+            <label>电话: <input type="text" id="phone"></label><br>
+            <div class="button-container">
+                <button onclick="submitLogistics()">提交</button>
+            </div>
+        </div>
+        
+        <div id="logisticsInfo" class="hidden">
+            <h3>已填写的物流信息</h3>
+            <table>
+                <tr><th>类别</th><th>信息</th></tr>
+                <tr><td>姓名</td><td id="displayName"></td></tr>
+                <tr><td>地址</td><td id="displayAddress"></td></tr>
+                <tr><td>电话</td><td id="displayPhone"></td></tr>
+            </table>
+            <div class="button-container">
+                <button onclick="editLogistics()">修改</button>
+            </div>
+        </div>
+        
+        <div id="overlay" class="hidden overlay"></div>
+        <div id="modal" class="hidden modal">
+            <p>物流信息已提交！</p>
+            <button onclick="closeModal()">确定</button>
+        </div>
     </div>
     
     <script>
